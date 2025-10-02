@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+    }
+    .carousel {
+      position: relative;
+      max-width: 800px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slides img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    /* Arrows */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      padding: 0 10px;
+      user-select: none;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    /* Dots */
+    .dots {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .dot {
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+      margin: 0 5px;
+      background: #bbb;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dot.active {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel">
+  <div class="slides">
+    <img src="https://staging2.astutis.com/getmedia/fe2dc0bb-5f5c-478c-89a2-3630555dced7/Award-winners_Winner-4.jpg" alt="Slide 1">
+    <img src="https://staging2.astutis.com/getmedia/6be05bed-c5d7-4012-85a0-e3367ed234a9/Award-winners_Winner-6.jpg" alt="Slide 2">
+    <img src="https://staging2.astutis.com/getmedia/9555074a-3ef5-45df-9488-ccccb59e58b1/Award-winners_Winner-5.jpg" alt="Slide 3">
+    <img src="https://staging2.astutis.com/getmedia/7dd01247-ac21-44ca-a289-5754c89da00b/Award-winners_Winner-7.jpg" alt="Slide 4">
+    <img src="https://staging2.astutis.com/getmedia/cf0bbd30-4905-4d65-bea6-13006cec24ef/Award-winners_Winner-1.jpg" alt="Slide 5">
+    <img src="https://staging2.astutis.com/getmedia/b9a019a0-f7ac-4e26-bcfb-f0bd134fa8eb/Award-winners_Winner-2.jpg" alt="Slide 6">
+    <img src="https://staging2.astutis.com/getmedia/ccfa5766-83be-44f9-802d-d195f1c7b839/Award-winners_Winner-3.jpg" alt="Slide 7">
+  </div>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+</div>
+<div class="dots"></div>
+
+<script>
+  const slides = document.querySelector('.slides');
+  const images = document.querySelectorAll('.slides img');
+  const dotsContainer = document.querySelector('.dots');
+  let index = 0;
+
+  // Create dots
+  images.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => showSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+  const dots = document.querySelectorAll('.dot');
+
+  function showSlide(n) {
+    index = (n + images.length) % images.length;
+    slides.style.transform = `translateX(${-index * 100}%)`;
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[index].classList.add('active');
+  }
+
+  document.querySelector('.next').addEventListener('click', () => showSlide(index + 1));
+  document.querySelector('.prev').addEventListener('click', () => showSlide(index - 1));
+
+  // Auto-play every 4 seconds
+  setInterval(() => showSlide(index + 1), 4000);
+</script>
+
+</body>
+</html>
