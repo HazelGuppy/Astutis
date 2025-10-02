@@ -105,6 +105,17 @@
   // Auto-play every 4 seconds
   setInterval(() => showSlide(index + 1), 4000);
 </script>
+<script>
+  function sendHeight() {
+    window.parent.postMessage(
+      { iframeHeight: document.body.scrollHeight },
+      '*'
+    );
+  }
+  window.onload = sendHeight;
+  window.onresize = sendHeight;
+</script>
 
 </body>
 </html>
+
